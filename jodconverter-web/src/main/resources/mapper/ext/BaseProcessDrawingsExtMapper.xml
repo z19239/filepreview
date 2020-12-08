@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.keking.mapper.BaseProcessDrawingsExtMapper">
+
+  <resultMap id="BaseDrawingsResultMap" type="cn.keking.model.database.domain.BaseProcessDrawings">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="p_id" jdbcType="INTEGER" property="pId" />
+    <result column="cInvCCode" jdbcType="VARCHAR" property="cinvccode" />
+    <result column="cInvCName" jdbcType="VARCHAR" property="cinvcname" />
+    <result column="cInvCode" jdbcType="VARCHAR" property="cinvcode" />
+    <result column="cIInvAddCode" jdbcType="VARCHAR" property="ciinvaddcode" />
+    <result column="cIInvName" jdbcType="VARCHAR" property="ciinvname" />
+    <result column="cInvStd" jdbcType="VARCHAR" property="cinvstd" />
+    <result column="drawing_no" jdbcType="VARCHAR" property="drawingNo" />
+    <result column="version_no" jdbcType="VARCHAR" property="versionNo" />
+    <result column="is_drawing" jdbcType="INTEGER" property="isDrawing" />
+    <result column="is_card" jdbcType="INTEGER" property="isCard" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="updater_id" jdbcType="INTEGER" property="updaterId" />
+  </resultMap>
+
+  <resultMap id="BaseDrawingsDetailsResultMap" type="cn.keking.model.database.domain.BaseProcessDrawingsDetails">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pd_id" jdbcType="INTEGER" property="pdId" />
+    <result column="drawing_type" jdbcType="INTEGER" property="drawingType" />
+    <result column="drawing_path" jdbcType="VARCHAR" property="drawingPath" />
+  </resultMap>
+
+  <resultMap id="BaseInventoryResultMap" type="cn.keking.model.database.domain.Inventory">
+    <id column="AutoId" jdbcType="INTEGER" property="autoid" />
+    <result column="cAcc_Id" jdbcType="VARCHAR" property="caccId" />
+    <result column="cInvCode" jdbcType="VARCHAR" property="cinvcode" />
+    <result column="cInvAddCode" jdbcType="VARCHAR" property="cinvaddcode" />
+    <result column="cInvName" jdbcType="VARCHAR" property="cinvname" />
+    <result column="cInvStd" jdbcType="VARCHAR" property="cinvstd" />
+    <result column="cInvCCode" jdbcType="VARCHAR" property="cinvccode" />
+    <result column="cInvCName" jdbcType="VARCHAR" property="cinvcname" />
+    <result column="cComUnitCode" jdbcType="VARCHAR" property="ccomunitcode" />
+    <result column="cComUnitName" jdbcType="VARCHAR" property="ccomunitname" />
+    <result column="dEDate" jdbcType="DATE" property="dedate" />
+    <result column="bInvBatch" jdbcType="BIT" property="binvbatch" />
+    <result column="bInvQuality" jdbcType="BIT" property="binvquality" />
+    <result column="bPurchase" jdbcType="BIT" property="bpurchase" />
+    <result column="bSelf" jdbcType="BIT" property="bself" />
+    <result column="bProxyForeign" jdbcType="BIT" property="bproxyforeign" />
+    <result column="bSale" jdbcType="BIT" property="bsale" />
+    <result column="bFree1" jdbcType="BIT" property="bfree1" />
+    <result column="bFree2" jdbcType="BIT" property="bfree2" />
+    <result column="dCreateDate" jdbcType="TIMESTAMP" property="dcreatedate" />
+    <result column="iModifyCounts" jdbcType="SMALLINT" property="imodifycounts" />
+    <result column="cLastModifier" jdbcType="VARCHAR" property="clastmodifier" />
+    <result column="dLastModifyDate" jdbcType="TIMESTAMP" property="dlastmodifydate" />
+    <result column="bMesIsRead" jdbcType="BIT" property="bmesisread" />
+    <result column="dMesReadDate" jdbcType="TIMESTAMP" property="dmesreaddate" />
+    <result column="cInvDefine1" jdbcType="VARCHAR" property="cinvdefine1" />
+    <result column="cInvDefine2" jdbcType="VARCHAR" property="cinvdefine2" />
+    <result column="cInvDefine3" jdbcType="VARCHAR" property="cinvdefine3" />
+    <result column="cInvDefine4" jdbcType="VARCHAR" property="cinvdefine4" />
+    <result column="cInvDefine5" jdbcType="VARCHAR" property="cinvdefine5" />
+    <result column="cInvDefine6" jdbcType="VARCHAR" property="cinvdefine6" />
+    <result column="cInvDefine7" jdbcType="VARCHAR" property="cinvdefine7" />
+    <result column="cInvDefine8" jdbcType="VARCHAR" property="cinvdefine8" />
+    <result column="cInvDefine9" jdbcType="VARCHAR" property="cinvdefine9" />
+    <result column="cInvDefine10" jdbcType="VARCHAR" property="cinvdefine10" />
+    <result column="cInvDefine11" jdbcType="INTEGER" property="cinvdefine11" />
+    <result column="cInvDefine12" jdbcType="INTEGER" property="cinvdefine12" />
+    <result column="cInvDefine13" jdbcType="DOUBLE" property="cinvdefine13" />
+    <result column="cInvDefine14" jdbcType="DOUBLE" property="cinvdefine14" />
+    <result column="cInvDefine15" jdbcType="TIMESTAMP" property="cinvdefine15" />
+    <result column="cInvDefine16" jdbcType="TIMESTAMP" property="cinvdefine16" />
+    <result column="cInvMnemCode" jdbcType="VARCHAR" property="cinvmnemcode" />
+    <result column="iMassDate" jdbcType="SMALLINT" property="imassdate" />
+    <result column="cMassUnit" jdbcType="SMALLINT" property="cmassunit" />
+    <result column="bFree3" jdbcType="BIT" property="bfree3" />
+    <result column="bFree4" jdbcType="BIT" property="bfree4" />
+    <result column="bFree5" jdbcType="BIT" property="bfree5" />
+    <result column="bFree6" jdbcType="BIT" property="bfree6" />
+    <result column="bFree7" jdbcType="BIT" property="bfree7" />
+    <result column="bFree8" jdbcType="BIT" property="bfree8" />
+    <result column="bFree9" jdbcType="BIT" property="bfree9" />
+    <result column="bFree10" jdbcType="BIT" property="bfree10" />
+  </resultMap>
+
+  <sql id="Base_Drawings_Column_List">
+    id, p_id, cInvCCode, cInvCName, cInvCode, cIInvAddCode, cIInvName, cInvStd, drawing_no,
+    version_no, is_drawing, is_card, create_time, creator_id, update_time, updater_id
+  </sql>
+  <sql id="Base_DrawingsDetails_Column_List">
+    id, pd_id, drawing_type, drawing_path
+  </sql>
+  <sql id="Base_Inventory_Column_List">
+    AutoId, cAcc_Id, cInvCode, cInvAddCode, cInvName, cInvStd, cInvCCode, cInvCName,
+    cComUnitCode, cComUnitName, dEDate, bInvBatch, bInvQuality, bPurchase, bSelf, bProxyForeign,
+    bSale, bFree1, bFree2, dCreateDate, iModifyCounts, cLastModifier, dLastModifyDate,
+    bMesIsRead, dMesReadDate, cInvDefine1, cInvDefine2, cInvDefine3, cInvDefine4, cInvDefine5,
+    cInvDefine6, cInvDefine7, cInvDefine8, cInvDefine9, cInvDefine10, cInvDefine11, cInvDefine12,
+    cInvDefine13, cInvDefine14, cInvDefine15, cInvDefine16, cInvMnemCode, iMassDate,
+    cMassUnit, bFree3, bFree4, bFree5, bFree6, bFree7, bFree8, bFree9, bFree10
+  </sql>
+
+  <select id="selectByCInvCodeInventory" parameterType="java.lang.String" resultMap="BaseInventoryResultMap">
+    select
+    <include refid="Base_Inventory_Column_List" />
+    from inventory inv
+    WHERE inv.cInvCode= #{cInvCode,jdbcType=VARCHAR};
+  </select>
+
+  <!-- 批量导入-->
+  <insert id="addDrawingsDetailsBatch" useGeneratedKeys="true"
+          keyProperty="id" parameterType="List">
+    INSERT INTO base_process_drawings_details(
+      pd_id, drawing_type, drawing_path
+    )
+    VALUES
+    <foreach collection="list" item="listInfo" separator=",">
+      (#{listInfo.pdId,jdbcType=INTEGER}
+      ,#{listInfo.drawingType,jdbcType=INTEGER}
+      ,#{listInfo.drawingPath,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  <insert id="insterBaseProcessDrawings" useGeneratedKeys="true"
+          keyProperty="id" parameterType="cn.keking.model.database.domain.BaseProcessDrawings">
+      INSERT INTO base_process_drawings(
+       cInvCCode, cInvCName, cInvCode, cIInvAddCode, cIInvName, cInvStd, drawing_no,
+       version_no, is_drawing, is_card, create_time, creator_id, update_time, updater_id
+      )
+      VALUES
+      (#{cinvccode,jdbcType=VARCHAR}, #{cinvcname,jdbcType=VARCHAR}, #{cinvcode,jdbcType=VARCHAR},
+      #{ciinvaddcode,jdbcType=VARCHAR}, #{ciinvname,jdbcType=VARCHAR}, #{cinvstd,jdbcType=VARCHAR},
+      #{drawingNo,jdbcType=VARCHAR}, #{versionNo,jdbcType=VARCHAR}, #{isDrawing,jdbcType=INTEGER},
+      #{isCard,jdbcType=INTEGER},  #{createTime,jdbcType=TIMESTAMP},
+      #{creatorId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{updaterId,jdbcType=INTEGER})
+  </insert>
+
+  <!-- 调用视图查询exceld导入的数据是否有数据匹配 -->
+  <select id="selectViewBydraweNo" parameterType="java.lang.String" resultType="cn.keking.model.PageData">
+        select vd.Free1,vd.bcInvCode,vd.cInvAddCode,vd.cInvCode,vd.drawe_no from v_base_process_drawings vd
+        where vd.drawe_no= #{drawe_no,jdbcType=VARCHAR};
+  </select>
+
+  <select id="selectTempBydraweNo" parameterType="java.lang.String" resultType="cn.keking.model.PageData">
+    SELECT * FROM temp_base_process_drawings td WHERE td.drawe_no=#{drawe_no,jdbcType=VARCHAR};
+  </select>
+
+  <select id="queryByDraweNo" resultType="cn.keking.model.ext.DraweNoDTO">
+    SELECT
+            `a`.`AutoId` AS `autoId`,
+            `a`.`cInvCode` AS `cInvCode`,
+            `a`.`cInvAddCode` AS `cInvAddCode`,
+            `b`.`cInvCode` AS `basecInvCode`,
+            `b`.`Free1` AS `Free1`,
+            ifnull(concat(`a`.`cInvAddCode`,ifnull( `b`.`Free1`, '' )),concat(`a`.`cInvCode`,ifnull( `b`.`Free1`, '' ))) AS `drawe_no`
+    FROM
+            ( `inventory` `a` JOIN `bas_part` `b` )
+    WHERE
+            ( `a`.`cInvCode` = `b`.`cInvCode` )
+    <if test="pageNo !=null and pageNo>0 ">
+      limit #{pageNo},#{pageSize}
+    </if>
+    </select>
+
+  <select id="queryDraweNoCount" resultType="int">
+    SELECT
+      count(*)
+    FROM
+    ( `inventory` `a` JOIN `bas_part` `b` )
+    WHERE
+    (`a`.`cInvCode` = `b`.`cInvCode` )
+  </select>
+</mapper>

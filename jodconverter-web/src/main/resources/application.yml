@@ -1,0 +1,119 @@
+##########################################################
+##################  所有profile共有的配置  #################
+server:
+  port: 8012
+spring:
+  ##设置生效配置（dev为开发环境，produce为生产环境,可以设置数据库连接、端口等等配置）
+  #profiles:
+  #active: dev
+  application:
+    name: file-online-preview
+  ##########################################################
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    ##集成druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 1
+    minIdle: 1
+    maxActive: 10
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 1 from dual
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,slf4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: true
+rule:
+  log:
+    enable: false
+  service-name: file-online-preview服务
+# 服务版本管理配置
+info:
+  build:
+    artifact: '@project.artifactId@'
+    version: '@project.version@'
+    server-name: ${rule.service-name}
+mybatis:
+  typeAliasesPackage: cn.keking.model
+  mapperLocations: classpath:mapper/*/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#日志输出mybatis里面的sql
+logging:
+  level:
+    cn.keking.mapper: debug
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    #实例名
+    instance-id: file-online-preview:${server.port}
+    #    instance-id: ${eureka.instance.ip-address}:${spring.application.name}:${eureka.instance.non-secure-port}
+    #配置状态页面为swagger-bootstrap-ui（封装swagger的开源项目，用户界面比较友好，推荐一个）接口页面，默认为项目的info端点页面
+    #    status-page-url: http://${eureka.instance.ip-address}:${eureka.instance.non-secure-port}/v2/api-docs
+    #设置外网IP号(就是natapp 中的域名)
+    #    ip-address: server.natappfree.cc
+    #设置外网端口号（natapp 的端口）
+    #    non-secure-port: 33106
+  client:
+    service-url:
+      #euraka地址
+      #defaultZone: http://10.0.10.24:8767/eureka/
+      defaultZone: http://pjz85ei02e.52http.tech/eureka/
+---
+##########################################################
+###################  正式环境的profile  ###################
+##########################################################
+##数据库连接设置（正式环境produce）
+spring:
+  profiles: produce
+  datasource:
+    url: jdbc:mysql://10.0.10.33:3306/ljmes?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password: Ljmes@123
+##端口号设置，访问路径设置
+server:
+  servlet:
+    context-path: /
+---
+##########################################################
+###################  开发环境的profile  ###################
+##########################################################
+##数据库连接设置（开发环境dev）
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://122.51.146.12:3306/ljmes_33?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password: 1001
+##数据库连接设置（开发环境dev）
+##端口号设置，访问路径设置
+server:
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+
+---
+##########################################################
+###################  测试环境的profile  ###################
+##########################################################
+##数据库连接设置（开发环境dev）
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:mysql://10.0.10.22:3306/ljmes?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password: Ljmes@123
+##数据库连接设置（开发环境dev）
+##端口号设置，访问路径设置
+server:
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8

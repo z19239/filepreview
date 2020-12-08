@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.keking.mapper.FileSaveRepositoryMapper">
+    <insert id="save"></insert>
+    <delete id="delete"></delete>
+    <select id="findFileSaveByLocalLink" resultType="cn.keking.model.FileSave"></select>
+    <select id="findFileSavesByUserName" resultType="cn.keking.model.FileSave"></select>
+    <select id="findFileSaveByUserNameAndFileName" resultType="cn.keking.model.FileSave"></select>
+    <select id="findFileSaveByPanPath" resultType="cn.keking.model.FileSave"></select>
+</mapper>

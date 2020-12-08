@@ -1,0 +1,953 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.keking.mapper.database.InventoryMapper">
+  <resultMap id="BaseResultMap" type="cn.keking.model.database.domain.Inventory">
+    <id column="AutoId" jdbcType="INTEGER" property="autoid" />
+    <result column="cAcc_Id" jdbcType="VARCHAR" property="caccId" />
+    <result column="cInvCode" jdbcType="VARCHAR" property="cinvcode" />
+    <result column="cInvAddCode" jdbcType="VARCHAR" property="cinvaddcode" />
+    <result column="cInvName" jdbcType="VARCHAR" property="cinvname" />
+    <result column="cInvStd" jdbcType="VARCHAR" property="cinvstd" />
+    <result column="cInvCCode" jdbcType="VARCHAR" property="cinvccode" />
+    <result column="cInvCName" jdbcType="VARCHAR" property="cinvcname" />
+    <result column="cComUnitCode" jdbcType="VARCHAR" property="ccomunitcode" />
+    <result column="cComUnitName" jdbcType="VARCHAR" property="ccomunitname" />
+    <result column="dEDate" jdbcType="DATE" property="dedate" />
+    <result column="bInvBatch" jdbcType="BIT" property="binvbatch" />
+    <result column="bInvQuality" jdbcType="BIT" property="binvquality" />
+    <result column="bPurchase" jdbcType="BIT" property="bpurchase" />
+    <result column="bSelf" jdbcType="BIT" property="bself" />
+    <result column="bProxyForeign" jdbcType="BIT" property="bproxyforeign" />
+    <result column="bSale" jdbcType="BIT" property="bsale" />
+    <result column="bFree1" jdbcType="BIT" property="bfree1" />
+    <result column="bFree2" jdbcType="BIT" property="bfree2" />
+    <result column="dCreateDate" jdbcType="TIMESTAMP" property="dcreatedate" />
+    <result column="iModifyCounts" jdbcType="SMALLINT" property="imodifycounts" />
+    <result column="cLastModifier" jdbcType="VARCHAR" property="clastmodifier" />
+    <result column="dLastModifyDate" jdbcType="TIMESTAMP" property="dlastmodifydate" />
+    <result column="bMesIsRead" jdbcType="BIT" property="bmesisread" />
+    <result column="dMesReadDate" jdbcType="TIMESTAMP" property="dmesreaddate" />
+    <result column="cInvDefine1" jdbcType="VARCHAR" property="cinvdefine1" />
+    <result column="cInvDefine2" jdbcType="VARCHAR" property="cinvdefine2" />
+    <result column="cInvDefine3" jdbcType="VARCHAR" property="cinvdefine3" />
+    <result column="cInvDefine4" jdbcType="VARCHAR" property="cinvdefine4" />
+    <result column="cInvDefine5" jdbcType="VARCHAR" property="cinvdefine5" />
+    <result column="cInvDefine6" jdbcType="VARCHAR" property="cinvdefine6" />
+    <result column="cInvDefine7" jdbcType="VARCHAR" property="cinvdefine7" />
+    <result column="cInvDefine8" jdbcType="VARCHAR" property="cinvdefine8" />
+    <result column="cInvDefine9" jdbcType="VARCHAR" property="cinvdefine9" />
+    <result column="cInvDefine10" jdbcType="VARCHAR" property="cinvdefine10" />
+    <result column="cInvDefine11" jdbcType="INTEGER" property="cinvdefine11" />
+    <result column="cInvDefine12" jdbcType="INTEGER" property="cinvdefine12" />
+    <result column="cInvDefine13" jdbcType="DOUBLE" property="cinvdefine13" />
+    <result column="cInvDefine14" jdbcType="DOUBLE" property="cinvdefine14" />
+    <result column="cInvDefine15" jdbcType="TIMESTAMP" property="cinvdefine15" />
+    <result column="cInvDefine16" jdbcType="TIMESTAMP" property="cinvdefine16" />
+    <result column="cInvMnemCode" jdbcType="VARCHAR" property="cinvmnemcode" />
+    <result column="iMassDate" jdbcType="SMALLINT" property="imassdate" />
+    <result column="cMassUnit" jdbcType="SMALLINT" property="cmassunit" />
+    <result column="bFree3" jdbcType="BIT" property="bfree3" />
+    <result column="bFree4" jdbcType="BIT" property="bfree4" />
+    <result column="bFree5" jdbcType="BIT" property="bfree5" />
+    <result column="bFree6" jdbcType="BIT" property="bfree6" />
+    <result column="bFree7" jdbcType="BIT" property="bfree7" />
+    <result column="bFree8" jdbcType="BIT" property="bfree8" />
+    <result column="bFree9" jdbcType="BIT" property="bfree9" />
+    <result column="bFree10" jdbcType="BIT" property="bfree10" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    AutoId, cAcc_Id, cInvCode, cInvAddCode, cInvName, cInvStd, cInvCCode, cInvCName, 
+    cComUnitCode, cComUnitName, dEDate, bInvBatch, bInvQuality, bPurchase, bSelf, bProxyForeign, 
+    bSale, bFree1, bFree2, dCreateDate, iModifyCounts, cLastModifier, dLastModifyDate, 
+    bMesIsRead, dMesReadDate, cInvDefine1, cInvDefine2, cInvDefine3, cInvDefine4, cInvDefine5, 
+    cInvDefine6, cInvDefine7, cInvDefine8, cInvDefine9, cInvDefine10, cInvDefine11, cInvDefine12, 
+    cInvDefine13, cInvDefine14, cInvDefine15, cInvDefine16, cInvMnemCode, iMassDate, 
+    cMassUnit, bFree3, bFree4, bFree5, bFree6, bFree7, bFree8, bFree9, bFree10
+  </sql>
+  <select id="selectByExample" parameterType="cn.keking.model.database.domain.InventoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from inventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from inventory
+    where AutoId = #{autoid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from inventory
+    where AutoId = #{autoid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.keking.model.database.domain.InventoryExample">
+    delete from inventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.keking.model.database.domain.Inventory">
+    <selectKey keyProperty="autoid" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into inventory (cAcc_Id, cInvCode, cInvAddCode, 
+      cInvName, cInvStd, cInvCCode, 
+      cInvCName, cComUnitCode, cComUnitName, 
+      dEDate, bInvBatch, bInvQuality, 
+      bPurchase, bSelf, bProxyForeign, 
+      bSale, bFree1, bFree2, dCreateDate, 
+      iModifyCounts, cLastModifier, dLastModifyDate, 
+      bMesIsRead, dMesReadDate, cInvDefine1, 
+      cInvDefine2, cInvDefine3, cInvDefine4, 
+      cInvDefine5, cInvDefine6, cInvDefine7, 
+      cInvDefine8, cInvDefine9, cInvDefine10, 
+      cInvDefine11, cInvDefine12, cInvDefine13, 
+      cInvDefine14, cInvDefine15, cInvDefine16, 
+      cInvMnemCode, iMassDate, cMassUnit, 
+      bFree3, bFree4, bFree5, bFree6, 
+      bFree7, bFree8, bFree9, bFree10
+      )
+    values (#{caccId,jdbcType=VARCHAR}, #{cinvcode,jdbcType=VARCHAR}, #{cinvaddcode,jdbcType=VARCHAR}, 
+      #{cinvname,jdbcType=VARCHAR}, #{cinvstd,jdbcType=VARCHAR}, #{cinvccode,jdbcType=VARCHAR}, 
+      #{cinvcname,jdbcType=VARCHAR}, #{ccomunitcode,jdbcType=VARCHAR}, #{ccomunitname,jdbcType=VARCHAR}, 
+      #{dedate,jdbcType=DATE}, #{binvbatch,jdbcType=BIT}, #{binvquality,jdbcType=BIT}, 
+      #{bpurchase,jdbcType=BIT}, #{bself,jdbcType=BIT}, #{bproxyforeign,jdbcType=BIT}, 
+      #{bsale,jdbcType=BIT}, #{bfree1,jdbcType=BIT}, #{bfree2,jdbcType=BIT}, #{dcreatedate,jdbcType=TIMESTAMP}, 
+      #{imodifycounts,jdbcType=SMALLINT}, #{clastmodifier,jdbcType=VARCHAR}, #{dlastmodifydate,jdbcType=TIMESTAMP}, 
+      #{bmesisread,jdbcType=BIT}, #{dmesreaddate,jdbcType=TIMESTAMP}, #{cinvdefine1,jdbcType=VARCHAR}, 
+      #{cinvdefine2,jdbcType=VARCHAR}, #{cinvdefine3,jdbcType=VARCHAR}, #{cinvdefine4,jdbcType=VARCHAR}, 
+      #{cinvdefine5,jdbcType=VARCHAR}, #{cinvdefine6,jdbcType=VARCHAR}, #{cinvdefine7,jdbcType=VARCHAR}, 
+      #{cinvdefine8,jdbcType=VARCHAR}, #{cinvdefine9,jdbcType=VARCHAR}, #{cinvdefine10,jdbcType=VARCHAR}, 
+      #{cinvdefine11,jdbcType=INTEGER}, #{cinvdefine12,jdbcType=INTEGER}, #{cinvdefine13,jdbcType=DOUBLE}, 
+      #{cinvdefine14,jdbcType=DOUBLE}, #{cinvdefine15,jdbcType=TIMESTAMP}, #{cinvdefine16,jdbcType=TIMESTAMP}, 
+      #{cinvmnemcode,jdbcType=VARCHAR}, #{imassdate,jdbcType=SMALLINT}, #{cmassunit,jdbcType=SMALLINT}, 
+      #{bfree3,jdbcType=BIT}, #{bfree4,jdbcType=BIT}, #{bfree5,jdbcType=BIT}, #{bfree6,jdbcType=BIT}, 
+      #{bfree7,jdbcType=BIT}, #{bfree8,jdbcType=BIT}, #{bfree9,jdbcType=BIT}, #{bfree10,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.keking.model.database.domain.Inventory">
+    <selectKey keyProperty="autoid" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into inventory
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="caccId != null">
+        cAcc_Id,
+      </if>
+      <if test="cinvcode != null">
+        cInvCode,
+      </if>
+      <if test="cinvaddcode != null">
+        cInvAddCode,
+      </if>
+      <if test="cinvname != null">
+        cInvName,
+      </if>
+      <if test="cinvstd != null">
+        cInvStd,
+      </if>
+      <if test="cinvccode != null">
+        cInvCCode,
+      </if>
+      <if test="cinvcname != null">
+        cInvCName,
+      </if>
+      <if test="ccomunitcode != null">
+        cComUnitCode,
+      </if>
+      <if test="ccomunitname != null">
+        cComUnitName,
+      </if>
+      <if test="dedate != null">
+        dEDate,
+      </if>
+      <if test="binvbatch != null">
+        bInvBatch,
+      </if>
+      <if test="binvquality != null">
+        bInvQuality,
+      </if>
+      <if test="bpurchase != null">
+        bPurchase,
+      </if>
+      <if test="bself != null">
+        bSelf,
+      </if>
+      <if test="bproxyforeign != null">
+        bProxyForeign,
+      </if>
+      <if test="bsale != null">
+        bSale,
+      </if>
+      <if test="bfree1 != null">
+        bFree1,
+      </if>
+      <if test="bfree2 != null">
+        bFree2,
+      </if>
+      <if test="dcreatedate != null">
+        dCreateDate,
+      </if>
+      <if test="imodifycounts != null">
+        iModifyCounts,
+      </if>
+      <if test="clastmodifier != null">
+        cLastModifier,
+      </if>
+      <if test="dlastmodifydate != null">
+        dLastModifyDate,
+      </if>
+      <if test="bmesisread != null">
+        bMesIsRead,
+      </if>
+      <if test="dmesreaddate != null">
+        dMesReadDate,
+      </if>
+      <if test="cinvdefine1 != null">
+        cInvDefine1,
+      </if>
+      <if test="cinvdefine2 != null">
+        cInvDefine2,
+      </if>
+      <if test="cinvdefine3 != null">
+        cInvDefine3,
+      </if>
+      <if test="cinvdefine4 != null">
+        cInvDefine4,
+      </if>
+      <if test="cinvdefine5 != null">
+        cInvDefine5,
+      </if>
+      <if test="cinvdefine6 != null">
+        cInvDefine6,
+      </if>
+      <if test="cinvdefine7 != null">
+        cInvDefine7,
+      </if>
+      <if test="cinvdefine8 != null">
+        cInvDefine8,
+      </if>
+      <if test="cinvdefine9 != null">
+        cInvDefine9,
+      </if>
+      <if test="cinvdefine10 != null">
+        cInvDefine10,
+      </if>
+      <if test="cinvdefine11 != null">
+        cInvDefine11,
+      </if>
+      <if test="cinvdefine12 != null">
+        cInvDefine12,
+      </if>
+      <if test="cinvdefine13 != null">
+        cInvDefine13,
+      </if>
+      <if test="cinvdefine14 != null">
+        cInvDefine14,
+      </if>
+      <if test="cinvdefine15 != null">
+        cInvDefine15,
+      </if>
+      <if test="cinvdefine16 != null">
+        cInvDefine16,
+      </if>
+      <if test="cinvmnemcode != null">
+        cInvMnemCode,
+      </if>
+      <if test="imassdate != null">
+        iMassDate,
+      </if>
+      <if test="cmassunit != null">
+        cMassUnit,
+      </if>
+      <if test="bfree3 != null">
+        bFree3,
+      </if>
+      <if test="bfree4 != null">
+        bFree4,
+      </if>
+      <if test="bfree5 != null">
+        bFree5,
+      </if>
+      <if test="bfree6 != null">
+        bFree6,
+      </if>
+      <if test="bfree7 != null">
+        bFree7,
+      </if>
+      <if test="bfree8 != null">
+        bFree8,
+      </if>
+      <if test="bfree9 != null">
+        bFree9,
+      </if>
+      <if test="bfree10 != null">
+        bFree10,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="caccId != null">
+        #{caccId,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvcode != null">
+        #{cinvcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvaddcode != null">
+        #{cinvaddcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvname != null">
+        #{cinvname,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvstd != null">
+        #{cinvstd,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvccode != null">
+        #{cinvccode,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvcname != null">
+        #{cinvcname,jdbcType=VARCHAR},
+      </if>
+      <if test="ccomunitcode != null">
+        #{ccomunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccomunitname != null">
+        #{ccomunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="dedate != null">
+        #{dedate,jdbcType=DATE},
+      </if>
+      <if test="binvbatch != null">
+        #{binvbatch,jdbcType=BIT},
+      </if>
+      <if test="binvquality != null">
+        #{binvquality,jdbcType=BIT},
+      </if>
+      <if test="bpurchase != null">
+        #{bpurchase,jdbcType=BIT},
+      </if>
+      <if test="bself != null">
+        #{bself,jdbcType=BIT},
+      </if>
+      <if test="bproxyforeign != null">
+        #{bproxyforeign,jdbcType=BIT},
+      </if>
+      <if test="bsale != null">
+        #{bsale,jdbcType=BIT},
+      </if>
+      <if test="bfree1 != null">
+        #{bfree1,jdbcType=BIT},
+      </if>
+      <if test="bfree2 != null">
+        #{bfree2,jdbcType=BIT},
+      </if>
+      <if test="dcreatedate != null">
+        #{dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imodifycounts != null">
+        #{imodifycounts,jdbcType=SMALLINT},
+      </if>
+      <if test="clastmodifier != null">
+        #{clastmodifier,jdbcType=VARCHAR},
+      </if>
+      <if test="dlastmodifydate != null">
+        #{dlastmodifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bmesisread != null">
+        #{bmesisread,jdbcType=BIT},
+      </if>
+      <if test="dmesreaddate != null">
+        #{dmesreaddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cinvdefine1 != null">
+        #{cinvdefine1,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine2 != null">
+        #{cinvdefine2,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine3 != null">
+        #{cinvdefine3,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine4 != null">
+        #{cinvdefine4,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine5 != null">
+        #{cinvdefine5,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine6 != null">
+        #{cinvdefine6,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine7 != null">
+        #{cinvdefine7,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine8 != null">
+        #{cinvdefine8,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine9 != null">
+        #{cinvdefine9,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine10 != null">
+        #{cinvdefine10,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine11 != null">
+        #{cinvdefine11,jdbcType=INTEGER},
+      </if>
+      <if test="cinvdefine12 != null">
+        #{cinvdefine12,jdbcType=INTEGER},
+      </if>
+      <if test="cinvdefine13 != null">
+        #{cinvdefine13,jdbcType=DOUBLE},
+      </if>
+      <if test="cinvdefine14 != null">
+        #{cinvdefine14,jdbcType=DOUBLE},
+      </if>
+      <if test="cinvdefine15 != null">
+        #{cinvdefine15,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cinvdefine16 != null">
+        #{cinvdefine16,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cinvmnemcode != null">
+        #{cinvmnemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="imassdate != null">
+        #{imassdate,jdbcType=SMALLINT},
+      </if>
+      <if test="cmassunit != null">
+        #{cmassunit,jdbcType=SMALLINT},
+      </if>
+      <if test="bfree3 != null">
+        #{bfree3,jdbcType=BIT},
+      </if>
+      <if test="bfree4 != null">
+        #{bfree4,jdbcType=BIT},
+      </if>
+      <if test="bfree5 != null">
+        #{bfree5,jdbcType=BIT},
+      </if>
+      <if test="bfree6 != null">
+        #{bfree6,jdbcType=BIT},
+      </if>
+      <if test="bfree7 != null">
+        #{bfree7,jdbcType=BIT},
+      </if>
+      <if test="bfree8 != null">
+        #{bfree8,jdbcType=BIT},
+      </if>
+      <if test="bfree9 != null">
+        #{bfree9,jdbcType=BIT},
+      </if>
+      <if test="bfree10 != null">
+        #{bfree10,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.keking.model.database.domain.InventoryExample" resultType="java.lang.Long">
+    select count(*) from inventory
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update inventory
+    <set>
+      <if test="record.autoid != null">
+        AutoId = #{record.autoid,jdbcType=INTEGER},
+      </if>
+      <if test="record.caccId != null">
+        cAcc_Id = #{record.caccId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvcode != null">
+        cInvCode = #{record.cinvcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvaddcode != null">
+        cInvAddCode = #{record.cinvaddcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvname != null">
+        cInvName = #{record.cinvname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvstd != null">
+        cInvStd = #{record.cinvstd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvccode != null">
+        cInvCCode = #{record.cinvccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvcname != null">
+        cInvCName = #{record.cinvcname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ccomunitcode != null">
+        cComUnitCode = #{record.ccomunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ccomunitname != null">
+        cComUnitName = #{record.ccomunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dedate != null">
+        dEDate = #{record.dedate,jdbcType=DATE},
+      </if>
+      <if test="record.binvbatch != null">
+        bInvBatch = #{record.binvbatch,jdbcType=BIT},
+      </if>
+      <if test="record.binvquality != null">
+        bInvQuality = #{record.binvquality,jdbcType=BIT},
+      </if>
+      <if test="record.bpurchase != null">
+        bPurchase = #{record.bpurchase,jdbcType=BIT},
+      </if>
+      <if test="record.bself != null">
+        bSelf = #{record.bself,jdbcType=BIT},
+      </if>
+      <if test="record.bproxyforeign != null">
+        bProxyForeign = #{record.bproxyforeign,jdbcType=BIT},
+      </if>
+      <if test="record.bsale != null">
+        bSale = #{record.bsale,jdbcType=BIT},
+      </if>
+      <if test="record.bfree1 != null">
+        bFree1 = #{record.bfree1,jdbcType=BIT},
+      </if>
+      <if test="record.bfree2 != null">
+        bFree2 = #{record.bfree2,jdbcType=BIT},
+      </if>
+      <if test="record.dcreatedate != null">
+        dCreateDate = #{record.dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.imodifycounts != null">
+        iModifyCounts = #{record.imodifycounts,jdbcType=SMALLINT},
+      </if>
+      <if test="record.clastmodifier != null">
+        cLastModifier = #{record.clastmodifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlastmodifydate != null">
+        dLastModifyDate = #{record.dlastmodifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bmesisread != null">
+        bMesIsRead = #{record.bmesisread,jdbcType=BIT},
+      </if>
+      <if test="record.dmesreaddate != null">
+        dMesReadDate = #{record.dmesreaddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cinvdefine1 != null">
+        cInvDefine1 = #{record.cinvdefine1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine2 != null">
+        cInvDefine2 = #{record.cinvdefine2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine3 != null">
+        cInvDefine3 = #{record.cinvdefine3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine4 != null">
+        cInvDefine4 = #{record.cinvdefine4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine5 != null">
+        cInvDefine5 = #{record.cinvdefine5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine6 != null">
+        cInvDefine6 = #{record.cinvdefine6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine7 != null">
+        cInvDefine7 = #{record.cinvdefine7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine8 != null">
+        cInvDefine8 = #{record.cinvdefine8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine9 != null">
+        cInvDefine9 = #{record.cinvdefine9,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine10 != null">
+        cInvDefine10 = #{record.cinvdefine10,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cinvdefine11 != null">
+        cInvDefine11 = #{record.cinvdefine11,jdbcType=INTEGER},
+      </if>
+      <if test="record.cinvdefine12 != null">
+        cInvDefine12 = #{record.cinvdefine12,jdbcType=INTEGER},
+      </if>
+      <if test="record.cinvdefine13 != null">
+        cInvDefine13 = #{record.cinvdefine13,jdbcType=DOUBLE},
+      </if>
+      <if test="record.cinvdefine14 != null">
+        cInvDefine14 = #{record.cinvdefine14,jdbcType=DOUBLE},
+      </if>
+      <if test="record.cinvdefine15 != null">
+        cInvDefine15 = #{record.cinvdefine15,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cinvdefine16 != null">
+        cInvDefine16 = #{record.cinvdefine16,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cinvmnemcode != null">
+        cInvMnemCode = #{record.cinvmnemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imassdate != null">
+        iMassDate = #{record.imassdate,jdbcType=SMALLINT},
+      </if>
+      <if test="record.cmassunit != null">
+        cMassUnit = #{record.cmassunit,jdbcType=SMALLINT},
+      </if>
+      <if test="record.bfree3 != null">
+        bFree3 = #{record.bfree3,jdbcType=BIT},
+      </if>
+      <if test="record.bfree4 != null">
+        bFree4 = #{record.bfree4,jdbcType=BIT},
+      </if>
+      <if test="record.bfree5 != null">
+        bFree5 = #{record.bfree5,jdbcType=BIT},
+      </if>
+      <if test="record.bfree6 != null">
+        bFree6 = #{record.bfree6,jdbcType=BIT},
+      </if>
+      <if test="record.bfree7 != null">
+        bFree7 = #{record.bfree7,jdbcType=BIT},
+      </if>
+      <if test="record.bfree8 != null">
+        bFree8 = #{record.bfree8,jdbcType=BIT},
+      </if>
+      <if test="record.bfree9 != null">
+        bFree9 = #{record.bfree9,jdbcType=BIT},
+      </if>
+      <if test="record.bfree10 != null">
+        bFree10 = #{record.bfree10,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update inventory
+    set AutoId = #{record.autoid,jdbcType=INTEGER},
+      cAcc_Id = #{record.caccId,jdbcType=VARCHAR},
+      cInvCode = #{record.cinvcode,jdbcType=VARCHAR},
+      cInvAddCode = #{record.cinvaddcode,jdbcType=VARCHAR},
+      cInvName = #{record.cinvname,jdbcType=VARCHAR},
+      cInvStd = #{record.cinvstd,jdbcType=VARCHAR},
+      cInvCCode = #{record.cinvccode,jdbcType=VARCHAR},
+      cInvCName = #{record.cinvcname,jdbcType=VARCHAR},
+      cComUnitCode = #{record.ccomunitcode,jdbcType=VARCHAR},
+      cComUnitName = #{record.ccomunitname,jdbcType=VARCHAR},
+      dEDate = #{record.dedate,jdbcType=DATE},
+      bInvBatch = #{record.binvbatch,jdbcType=BIT},
+      bInvQuality = #{record.binvquality,jdbcType=BIT},
+      bPurchase = #{record.bpurchase,jdbcType=BIT},
+      bSelf = #{record.bself,jdbcType=BIT},
+      bProxyForeign = #{record.bproxyforeign,jdbcType=BIT},
+      bSale = #{record.bsale,jdbcType=BIT},
+      bFree1 = #{record.bfree1,jdbcType=BIT},
+      bFree2 = #{record.bfree2,jdbcType=BIT},
+      dCreateDate = #{record.dcreatedate,jdbcType=TIMESTAMP},
+      iModifyCounts = #{record.imodifycounts,jdbcType=SMALLINT},
+      cLastModifier = #{record.clastmodifier,jdbcType=VARCHAR},
+      dLastModifyDate = #{record.dlastmodifydate,jdbcType=TIMESTAMP},
+      bMesIsRead = #{record.bmesisread,jdbcType=BIT},
+      dMesReadDate = #{record.dmesreaddate,jdbcType=TIMESTAMP},
+      cInvDefine1 = #{record.cinvdefine1,jdbcType=VARCHAR},
+      cInvDefine2 = #{record.cinvdefine2,jdbcType=VARCHAR},
+      cInvDefine3 = #{record.cinvdefine3,jdbcType=VARCHAR},
+      cInvDefine4 = #{record.cinvdefine4,jdbcType=VARCHAR},
+      cInvDefine5 = #{record.cinvdefine5,jdbcType=VARCHAR},
+      cInvDefine6 = #{record.cinvdefine6,jdbcType=VARCHAR},
+      cInvDefine7 = #{record.cinvdefine7,jdbcType=VARCHAR},
+      cInvDefine8 = #{record.cinvdefine8,jdbcType=VARCHAR},
+      cInvDefine9 = #{record.cinvdefine9,jdbcType=VARCHAR},
+      cInvDefine10 = #{record.cinvdefine10,jdbcType=VARCHAR},
+      cInvDefine11 = #{record.cinvdefine11,jdbcType=INTEGER},
+      cInvDefine12 = #{record.cinvdefine12,jdbcType=INTEGER},
+      cInvDefine13 = #{record.cinvdefine13,jdbcType=DOUBLE},
+      cInvDefine14 = #{record.cinvdefine14,jdbcType=DOUBLE},
+      cInvDefine15 = #{record.cinvdefine15,jdbcType=TIMESTAMP},
+      cInvDefine16 = #{record.cinvdefine16,jdbcType=TIMESTAMP},
+      cInvMnemCode = #{record.cinvmnemcode,jdbcType=VARCHAR},
+      iMassDate = #{record.imassdate,jdbcType=SMALLINT},
+      cMassUnit = #{record.cmassunit,jdbcType=SMALLINT},
+      bFree3 = #{record.bfree3,jdbcType=BIT},
+      bFree4 = #{record.bfree4,jdbcType=BIT},
+      bFree5 = #{record.bfree5,jdbcType=BIT},
+      bFree6 = #{record.bfree6,jdbcType=BIT},
+      bFree7 = #{record.bfree7,jdbcType=BIT},
+      bFree8 = #{record.bfree8,jdbcType=BIT},
+      bFree9 = #{record.bfree9,jdbcType=BIT},
+      bFree10 = #{record.bfree10,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.keking.model.database.domain.Inventory">
+    update inventory
+    <set>
+      <if test="caccId != null">
+        cAcc_Id = #{caccId,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvcode != null">
+        cInvCode = #{cinvcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvaddcode != null">
+        cInvAddCode = #{cinvaddcode,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvname != null">
+        cInvName = #{cinvname,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvstd != null">
+        cInvStd = #{cinvstd,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvccode != null">
+        cInvCCode = #{cinvccode,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvcname != null">
+        cInvCName = #{cinvcname,jdbcType=VARCHAR},
+      </if>
+      <if test="ccomunitcode != null">
+        cComUnitCode = #{ccomunitcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccomunitname != null">
+        cComUnitName = #{ccomunitname,jdbcType=VARCHAR},
+      </if>
+      <if test="dedate != null">
+        dEDate = #{dedate,jdbcType=DATE},
+      </if>
+      <if test="binvbatch != null">
+        bInvBatch = #{binvbatch,jdbcType=BIT},
+      </if>
+      <if test="binvquality != null">
+        bInvQuality = #{binvquality,jdbcType=BIT},
+      </if>
+      <if test="bpurchase != null">
+        bPurchase = #{bpurchase,jdbcType=BIT},
+      </if>
+      <if test="bself != null">
+        bSelf = #{bself,jdbcType=BIT},
+      </if>
+      <if test="bproxyforeign != null">
+        bProxyForeign = #{bproxyforeign,jdbcType=BIT},
+      </if>
+      <if test="bsale != null">
+        bSale = #{bsale,jdbcType=BIT},
+      </if>
+      <if test="bfree1 != null">
+        bFree1 = #{bfree1,jdbcType=BIT},
+      </if>
+      <if test="bfree2 != null">
+        bFree2 = #{bfree2,jdbcType=BIT},
+      </if>
+      <if test="dcreatedate != null">
+        dCreateDate = #{dcreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imodifycounts != null">
+        iModifyCounts = #{imodifycounts,jdbcType=SMALLINT},
+      </if>
+      <if test="clastmodifier != null">
+        cLastModifier = #{clastmodifier,jdbcType=VARCHAR},
+      </if>
+      <if test="dlastmodifydate != null">
+        dLastModifyDate = #{dlastmodifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bmesisread != null">
+        bMesIsRead = #{bmesisread,jdbcType=BIT},
+      </if>
+      <if test="dmesreaddate != null">
+        dMesReadDate = #{dmesreaddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cinvdefine1 != null">
+        cInvDefine1 = #{cinvdefine1,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine2 != null">
+        cInvDefine2 = #{cinvdefine2,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine3 != null">
+        cInvDefine3 = #{cinvdefine3,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine4 != null">
+        cInvDefine4 = #{cinvdefine4,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine5 != null">
+        cInvDefine5 = #{cinvdefine5,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine6 != null">
+        cInvDefine6 = #{cinvdefine6,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine7 != null">
+        cInvDefine7 = #{cinvdefine7,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine8 != null">
+        cInvDefine8 = #{cinvdefine8,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine9 != null">
+        cInvDefine9 = #{cinvdefine9,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine10 != null">
+        cInvDefine10 = #{cinvdefine10,jdbcType=VARCHAR},
+      </if>
+      <if test="cinvdefine11 != null">
+        cInvDefine11 = #{cinvdefine11,jdbcType=INTEGER},
+      </if>
+      <if test="cinvdefine12 != null">
+        cInvDefine12 = #{cinvdefine12,jdbcType=INTEGER},
+      </if>
+      <if test="cinvdefine13 != null">
+        cInvDefine13 = #{cinvdefine13,jdbcType=DOUBLE},
+      </if>
+      <if test="cinvdefine14 != null">
+        cInvDefine14 = #{cinvdefine14,jdbcType=DOUBLE},
+      </if>
+      <if test="cinvdefine15 != null">
+        cInvDefine15 = #{cinvdefine15,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cinvdefine16 != null">
+        cInvDefine16 = #{cinvdefine16,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cinvmnemcode != null">
+        cInvMnemCode = #{cinvmnemcode,jdbcType=VARCHAR},
+      </if>
+      <if test="imassdate != null">
+        iMassDate = #{imassdate,jdbcType=SMALLINT},
+      </if>
+      <if test="cmassunit != null">
+        cMassUnit = #{cmassunit,jdbcType=SMALLINT},
+      </if>
+      <if test="bfree3 != null">
+        bFree3 = #{bfree3,jdbcType=BIT},
+      </if>
+      <if test="bfree4 != null">
+        bFree4 = #{bfree4,jdbcType=BIT},
+      </if>
+      <if test="bfree5 != null">
+        bFree5 = #{bfree5,jdbcType=BIT},
+      </if>
+      <if test="bfree6 != null">
+        bFree6 = #{bfree6,jdbcType=BIT},
+      </if>
+      <if test="bfree7 != null">
+        bFree7 = #{bfree7,jdbcType=BIT},
+      </if>
+      <if test="bfree8 != null">
+        bFree8 = #{bfree8,jdbcType=BIT},
+      </if>
+      <if test="bfree9 != null">
+        bFree9 = #{bfree9,jdbcType=BIT},
+      </if>
+      <if test="bfree10 != null">
+        bFree10 = #{bfree10,jdbcType=BIT},
+      </if>
+    </set>
+    where AutoId = #{autoid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.keking.model.database.domain.Inventory">
+    update inventory
+    set cAcc_Id = #{caccId,jdbcType=VARCHAR},
+      cInvCode = #{cinvcode,jdbcType=VARCHAR},
+      cInvAddCode = #{cinvaddcode,jdbcType=VARCHAR},
+      cInvName = #{cinvname,jdbcType=VARCHAR},
+      cInvStd = #{cinvstd,jdbcType=VARCHAR},
+      cInvCCode = #{cinvccode,jdbcType=VARCHAR},
+      cInvCName = #{cinvcname,jdbcType=VARCHAR},
+      cComUnitCode = #{ccomunitcode,jdbcType=VARCHAR},
+      cComUnitName = #{ccomunitname,jdbcType=VARCHAR},
+      dEDate = #{dedate,jdbcType=DATE},
+      bInvBatch = #{binvbatch,jdbcType=BIT},
+      bInvQuality = #{binvquality,jdbcType=BIT},
+      bPurchase = #{bpurchase,jdbcType=BIT},
+      bSelf = #{bself,jdbcType=BIT},
+      bProxyForeign = #{bproxyforeign,jdbcType=BIT},
+      bSale = #{bsale,jdbcType=BIT},
+      bFree1 = #{bfree1,jdbcType=BIT},
+      bFree2 = #{bfree2,jdbcType=BIT},
+      dCreateDate = #{dcreatedate,jdbcType=TIMESTAMP},
+      iModifyCounts = #{imodifycounts,jdbcType=SMALLINT},
+      cLastModifier = #{clastmodifier,jdbcType=VARCHAR},
+      dLastModifyDate = #{dlastmodifydate,jdbcType=TIMESTAMP},
+      bMesIsRead = #{bmesisread,jdbcType=BIT},
+      dMesReadDate = #{dmesreaddate,jdbcType=TIMESTAMP},
+      cInvDefine1 = #{cinvdefine1,jdbcType=VARCHAR},
+      cInvDefine2 = #{cinvdefine2,jdbcType=VARCHAR},
+      cInvDefine3 = #{cinvdefine3,jdbcType=VARCHAR},
+      cInvDefine4 = #{cinvdefine4,jdbcType=VARCHAR},
+      cInvDefine5 = #{cinvdefine5,jdbcType=VARCHAR},
+      cInvDefine6 = #{cinvdefine6,jdbcType=VARCHAR},
+      cInvDefine7 = #{cinvdefine7,jdbcType=VARCHAR},
+      cInvDefine8 = #{cinvdefine8,jdbcType=VARCHAR},
+      cInvDefine9 = #{cinvdefine9,jdbcType=VARCHAR},
+      cInvDefine10 = #{cinvdefine10,jdbcType=VARCHAR},
+      cInvDefine11 = #{cinvdefine11,jdbcType=INTEGER},
+      cInvDefine12 = #{cinvdefine12,jdbcType=INTEGER},
+      cInvDefine13 = #{cinvdefine13,jdbcType=DOUBLE},
+      cInvDefine14 = #{cinvdefine14,jdbcType=DOUBLE},
+      cInvDefine15 = #{cinvdefine15,jdbcType=TIMESTAMP},
+      cInvDefine16 = #{cinvdefine16,jdbcType=TIMESTAMP},
+      cInvMnemCode = #{cinvmnemcode,jdbcType=VARCHAR},
+      iMassDate = #{imassdate,jdbcType=SMALLINT},
+      cMassUnit = #{cmassunit,jdbcType=SMALLINT},
+      bFree3 = #{bfree3,jdbcType=BIT},
+      bFree4 = #{bfree4,jdbcType=BIT},
+      bFree5 = #{bfree5,jdbcType=BIT},
+      bFree6 = #{bfree6,jdbcType=BIT},
+      bFree7 = #{bfree7,jdbcType=BIT},
+      bFree8 = #{bfree8,jdbcType=BIT},
+      bFree9 = #{bfree9,jdbcType=BIT},
+      bFree10 = #{bfree10,jdbcType=BIT}
+    where AutoId = #{autoid,jdbcType=INTEGER}
+  </update>
+</mapper>
