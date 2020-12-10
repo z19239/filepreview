@@ -84,7 +84,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     /**
      * 跨域请求
      * @return
-     */
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -93,6 +93,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 registry.addMapping("/**");
             }
         };
-    }
+    }*/
 
 }

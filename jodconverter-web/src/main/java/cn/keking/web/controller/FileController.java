@@ -1,6 +1,7 @@
 package cn.keking.web.controller;
 
 import cn.keking.config.ConfigConstants;
+import cn.keking.config.ConfigRefreshComponent;
 import cn.keking.model.*;
 import cn.keking.model.database.domain.BaseProcessDrawings;
 import cn.keking.model.database.domain.BaseProcessDrawingsDetails;
@@ -138,6 +139,7 @@ public class FileController {
     }
 
     @RequestMapping(value = "excelFileUpload", method = RequestMethod.POST)
+    @ResponseBody
     public String excelFileUpload(@RequestParam("file") MultipartFile file) throws JsonProcessingException {
         // 获取文件名
         String fileName = file.getOriginalFilename();
@@ -215,7 +217,9 @@ public class FileController {
     @ResponseBody
     public String getFilePath(@RequestParam("drawingNo") String drawingNo,HttpServletRequest request) throws JsonProcessingException, UnknownHostException {
         BaseProcessDrawings baseProcessDrawings =baseProcessDrawingsService.selectByDrawingNo(drawingNo);
-        String baseUrl =HttpURLConnectionUtil.backUrl(request);
+        //String baseUrl =HttpURLConnectionUtil.backUrl(request);
+        String baseUrl =ConfigRefreshComponent.HTTP;
+        //logger.info("请求地址url====>"+baseUrl);
         String imageUrl="";
         String pdfUrl="";
         Map<String,Object> map=new HashMap<>();
@@ -232,7 +236,8 @@ public class FileController {
                 List<String> imageUrls = pdfUtils.pdf2jpg(outFilePath, pdfName, baseUrl+"/");
                 if(imageUrls.size()>0){
                     imageUrl =imageUrls.get(0);
-                    pdfUrl=baseUrl+"/"+pdfName;
+                    pdfUrl=baseUrl+pdfName;
+                    //logger.info(pdfUrl);
                     map.put("imageUrl",imageUrl);
                     map.put("pdfUrl",pdfUrl);
                 }
