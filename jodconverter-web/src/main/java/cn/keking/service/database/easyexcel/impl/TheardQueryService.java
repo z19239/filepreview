@@ -25,11 +25,11 @@ public class TheardQueryService {
 
     private final Logger logger = LoggerFactory.getLogger(TheardQueryService.class);
 
+    @Autowired
+    private BaseProcessDrawingsExtMapper baseProcessDrawingsExtMapper;
 
 
-    static class SqlHadle{
-        @Autowired
-        private BaseProcessDrawingsExtMapper baseProcessDrawingsExtMapper;
+     class SqlHadle{
 
         public List querySql(int bindex, int num) {
             List<DraweNoDTO> draweNoDTOS=baseProcessDrawingsExtMapper.queryByDraweNo(bindex,num);
@@ -70,8 +70,6 @@ public class TheardQueryService {
         }
     }
 
-    @PostConstruct
-    @Scheduled(cron = "0 0/1 * * * ?")//每1分钟跟新一次数据理论上的数据无延时
     public void startTask() throws ExecutionException, InterruptedException {
         logger.info("线程数据初始化开始！");
         List<List> lists= getMaxResult();

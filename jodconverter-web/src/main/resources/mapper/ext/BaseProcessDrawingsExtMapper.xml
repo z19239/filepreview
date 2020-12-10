@@ -148,16 +148,16 @@
   <select id="queryByDraweNo" resultType="cn.keking.model.ext.DraweNoDTO">
     SELECT
             `a`.`AutoId` AS `autoId`,
-            `a`.`cInvCode` AS `cInvCode`,
-            `a`.`cInvAddCode` AS `cInvAddCode`,
+            `a`.`cInvCode` AS `cinvcode`,
+            `a`.`cInvAddCode` AS `cinvaddcode`,
             `b`.`cInvCode` AS `basecInvCode`,
-            `b`.`Free1` AS `Free1`,
-            ifnull(concat(`a`.`cInvAddCode`,ifnull( `b`.`Free1`, '' )),concat(`a`.`cInvCode`,ifnull( `b`.`Free1`, '' ))) AS `drawe_no`
+            `b`.`Free1` AS `free1`,
+            ifnull(concat(`a`.`cInvAddCode`,ifnull( `b`.`Free1`, '' )),concat(`a`.`cInvCode`,ifnull( `b`.`Free1`, '' ))) AS `draweNo`
     FROM
             ( `inventory` `a` JOIN `bas_part` `b` )
     WHERE
             ( `a`.`cInvCode` = `b`.`cInvCode` )
-    <if test="pageNo !=null and pageNo>0 ">
+    <if test="pageNo !=null and pageNo>=0 ">
       limit #{pageNo},#{pageSize}
     </if>
     </select>

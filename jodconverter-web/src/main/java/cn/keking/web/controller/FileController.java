@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
@@ -80,10 +81,16 @@ public class FileController {
 
     private final PdfUtils pdfUtils;
 
+    /**
+     * cacheServiceJDKImpl
+     * cacheServiceRedisImpl
+     * cacheServiceRocksDBImpl
+     */
+
     public FileController(FilePreviewFactory filePreviewFactory,
                           FileUtils fileUtils,
-                          CacheService cacheService,
-                          DownloadUtils downloadUtils,PdfUtils pdfUtils) {
+                          @Qualifier("cacheServiceJDKImpl") CacheService cacheService,
+                          DownloadUtils downloadUtils, PdfUtils pdfUtils) {
         this.previewFactory = filePreviewFactory;
         this.fileUtils = fileUtils;
         this.cacheService = cacheService;
@@ -830,7 +837,7 @@ public class FileController {
         if (null != files && !files.isEmpty()) {
             for (MultipartFile item : files.values()) {
                 String tempDir = FileUtil.getTempDir(tempPath, userName, fileName);
-                tempDir = StringUtil.stringSlashToOne(tempDir);
+                tempDir = stringSlashToOne(tempDir);
                 logger.warn("tempDir:" + tempDir);
                 File dir = new File(tempDir);
                 if (!dir.exists()) {
@@ -875,7 +882,7 @@ public class FileController {
         String userName = getUserNameByRequest(request);
         logger.warn(tempPath);
         String tempDir = FileUtil.getTempDir(tempPath, userName, fileName);
-        tempDir = StringUtil.stringSlashToOne(tempDir);
+        tempDir = stringSlashToOne(tempDir);
         File chunkFile = new File(tempDir + "/" + chunk);
         boolean result = false;
         // 分片文件是否存在，尺寸是否一致

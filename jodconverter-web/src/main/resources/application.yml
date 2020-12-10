@@ -41,8 +41,8 @@ info:
 mybatis:
   typeAliasesPackage: cn.keking.model
   mapperLocations: classpath:mapper/*/*.xml
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #configuration:
+      #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #日志输出mybatis里面的sql
 logging:
   level:
@@ -64,7 +64,7 @@ eureka:
     service-url:
       #euraka地址
       #defaultZone: http://10.0.10.24:8767/eureka/
-      defaultZone: http://pjz85ei02e.52http.tech/eureka/
+      defaultZone: http://192.168.1.4:8767/eureka/
 ---
 ##########################################################
 ###################  正式环境的profile  ###################

@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @Service
 public class EasyExcelServiceDrawingsImpl implements EasyExcelInterfaceService {
@@ -50,11 +51,9 @@ public class EasyExcelServiceDrawingsImpl implements EasyExcelInterfaceService {
     private static  List<DraweNoDTO> draweNoDTOList=new ArrayList<>();
 
     @PostConstruct
-    @Scheduled(cron = "0 0/1 * * * ?")//每1分钟跟新一次数据理论上的数据无延时
     public void startTask() throws ExecutionException, InterruptedException {
         logger.info("数据初始化开始！");
-        TheardQueryService.SqlHadle sqlHadle=new TheardQueryService.SqlHadle();
-        draweNoDTOList=sqlHadle.querySql(0,0);
+        draweNoDTOList=baseProcessDrawingsExtMapper.queryByDraweNo(-1,0);
         logger.info("数据初始化完成！");
     }
 
@@ -91,29 +90,30 @@ public class EasyExcelServiceDrawingsImpl implements EasyExcelInterfaceService {
                         }else{//这边进行保存
                             //List<PageData> pds=baseProcessDrawingsExtMapper.selectTempBydraweNo(drawings.getCinvcode());
                             String draweNo=drawings.getDraweNo();
-                            Optional<DraweNoDTO> draweNoDTO=draweNoDTOList.stream().filter(item ->
+                            /*Optional<DraweNoDTO> draweNoDTO=draweNoDTOList.stream().filter(item ->
                                     item.getDraweNo().equals(draweNo)
-                            ).findFirst();
-                            if(draweNoDTO.isPresent()){
-                                DraweNoDTO noDTO= DraweNoDTO.get();
-                                for (PageData pd:pds) {
-                                    Inventory inventory= baseProcessDrawingsExtMapper.selectByCInvCodeInventory(pd.getString("cInvCode"));
-                                    if(null==inventory){
+                            ).findFirst();*/
+                            List<DraweNoDTO> draweNoList=draweNoDTOList.stream().filter(item->(item.getDraweNo().equals(draweNo)))
+                                    .collect(Collectors.toList());
+                            if(draweNoList.size()>0){
+                                for (DraweNoDTO dra:draweNoList) {
+                                    //Inventory inventory= baseProcessDrawingsExtMapper.selectByCInvCodeInventory(pd.getString("cInvCode"));
+                                    /*if(null==inventory){
                                         remark += "该物料不存在请核实";
                                         addfailandsetremark(o, remark);
-                                    }else{
+                                    }else{*/
                                         BaseProcessDrawings baseProcessDrawings=new BaseProcessDrawings();
-                                        baseProcessDrawings.setCinvcode(inventory.getCinvcode());
-                                        baseProcessDrawings.setCiinvaddcode(inventory.getCinvaddcode());
-                                        baseProcessDrawings.setCinvcname(inventory.getCinvcname());
-                                        baseProcessDrawings.setDrawingNo(drawings.getCinvcode());
-                                        baseProcessDrawings.setVersionNo(pd.getString("Free1"));
+                                        baseProcessDrawings.setCinvcode(dra.getCinvcode());
+                                        baseProcessDrawings.setCiinvaddcode(dra.getCinvaddcode());
+                                        //baseProcessDrawings.setCinvcname(pd.getCinvcname());
+                                        baseProcessDrawings.setDrawingNo(drawings.getDraweNo());
+                                        baseProcessDrawings.setVersionNo(dra.getFree1());
                                         int is=baseProcessDrawingsExtMapper.insterBaseProcessDrawings(baseProcessDrawings);
                                         if(is>0){
                                             drawings.setPdId(baseProcessDrawings.getId());
                                             objs.add(drawings);
                                         }
-                                    }
+                                    //}
                                 }
                             }else{
                                 remark += "该图纸暂时未查询到对应的物料信息请核实";
