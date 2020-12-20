@@ -165,9 +165,13 @@ public class EasyExcelServiceDrawingsImpl implements EasyExcelInterfaceService {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                List<DraweNoDTO> noDTOList=new ArrayList<>();
+                if (draweNoCache.listConvertedFiles().containsKey(keymap) && ConfigConstants.isCacheEnabled()) {
+                    noDTOList=draweNoCache.listConvertedFiles().get(keymap);
+                }
                 List baseProcessDrawingsExcelUploadDTOList=new ArrayList<>();
                 ExecutorService service = Executors.newCachedThreadPool();
-                Comparison comparison=new Comparison(list,baseProcessDrawingsExcelUploadDTOList);
+                Comparison comparison=new Comparison(list,baseProcessDrawingsExcelUploadDTOList,noDTOList);
                 for(int i=0;i<5;i++){
                     service.submit(comparison);
                 }
@@ -184,13 +188,15 @@ public class EasyExcelServiceDrawingsImpl implements EasyExcelInterfaceService {
                     service.submit(pc.new Consumer(baseProcessDrawingsExtMapper,baseProcessDrawingsExtMapper,s));
                 }
             }
-             class Comparison implements Runnable {
+            class Comparison implements Runnable {
 
                 private List list ;
                 private List baseProcessDrawingsExcelUploadDTOList;
-                public Comparison(List list,List baseProcessDrawingsExcelUploadDTOList) {
+                private List<DraweNoDTO> noDTOList;
+                public Comparison(List list,List baseProcessDrawingsExcelUploadDTOList,List<DraweNoDTO> noDTOList) {
                     this.list=list;
                     this.baseProcessDrawingsExcelUploadDTOList=baseProcessDrawingsExcelUploadDTOList;
+                    this.noDTOList=noDTOList;
                 }
                 public void run() {
                     for (Object o : list) {
@@ -214,8 +220,8 @@ public class EasyExcelServiceDrawingsImpl implements EasyExcelInterfaceService {
                                     break;
                                 }
                                 //图纸匹配插入数据库
-                                if (draweNoCache.listConvertedFiles().containsKey(keymap) && ConfigConstants.isCacheEnabled()) {
-                                    List<DraweNoDTO> drawNoList=draweNoCache.listConvertedFiles().get(keymap).stream()
+                                if (ConfigConstants.isCacheEnabled()) {
+                                    List<DraweNoDTO> drawNoList=noDTOList.stream()
                                             .filter(item->(item.getDraweNo().equals(drawerNo))
                                             )
                                             .collect(Collectors.toList());
