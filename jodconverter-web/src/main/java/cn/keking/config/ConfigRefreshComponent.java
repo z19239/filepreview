@@ -67,6 +67,7 @@ public class ConfigRefreshComponent {
                     ConfigConstants.setSmbUsername(properties.getProperty("smb.username", ConfigConstants.SMB_USERNAME));
                     ConfigConstants.setSmbPassword(properties.getProperty("smb.password", ConfigConstants.SMB_PASSWORD));
                     ConfigConstants.setSmbFilePath(properties.getProperty("smb.file.path", ConfigConstants.SMB_FILE_PATH));
+                    ConfigConstants.setkeyDRAWE(properties.getProperty("key.drawe", ConfigConstants.KEY_DRAWE));
                     HTTP=properties.getProperty("httpApi");
                     ConfigConstants.setCacheEnabledValueValue(cacheEnabled);
                     ConfigConstants.setSimTextValue(textArray);

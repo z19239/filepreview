@@ -1,5 +1,6 @@
 package cn.keking.service.cache.impl;
 
+import cn.keking.model.ext.DraweNoDTO;
 import cn.keking.service.cache.CacheService;
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.googlecode.concurrentlinkedhashmap.Weighers;
@@ -60,6 +61,11 @@ public class CacheServiceJDKImpl implements CacheService {
     }
 
     @Override
+    public void putDRAWINGSCache(String key, List<DraweNoDTO> value) {
+
+    }
+
+    @Override
     public void putImgCache(String key, List<String> value) {
         if (imgCache == null) {
             initIMGCachePool(CacheService.DEFAULT_IMG_CAPACITY);
@@ -100,6 +106,16 @@ public class CacheServiceJDKImpl implements CacheService {
     }
 
     @Override
+    public List<DraweNoDTO> getDRAWINGSCache(String key) {
+        return null;
+    }
+
+    @Override
+    public Map<String, List<DraweNoDTO>> getDRAWINGSCache() {
+        return null;
+    }
+
+    @Override
     public Integer getPdfImageCache(String key) {
         if (pdfImagesCache == null) {
             initPdfImagesCachePool(CacheService.DEFAULT_PDFIMG_CAPACITY);
@@ -125,11 +141,6 @@ public class CacheServiceJDKImpl implements CacheService {
     @Override
     public void addQueueTask(String url) {
         blockingQueue.add(url);
-    }
-
-    @Override
-    public void addQueueTask() {
-
     }
 
     @Override

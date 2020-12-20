@@ -32,6 +32,7 @@ public class ConfigConstants {
     public static  String SMB_USERNAME;
     public static  String SMB_PASSWORD;
     public static  String SMB_FILE_PATH;
+    public static  String KEY_DRAWE;
 
     public static final String DEFAULT_CACHE_ENABLED = "true";
     public static final String DEFAULT_TXT_TYPE = "txt,html,htm,asp,jsp,xml,json,properties,md,gitignore,log,java,py,c,cpp,sql,sh,bat,m,bas,prg,cmd";
@@ -74,6 +75,14 @@ public class ConfigConstants {
 
     public static void setSmbFilePath(String smbFilePath) {
         SMB_FILE_PATH = smbFilePath;
+    }
+
+    public static String getkeyDRAWE() {
+        return KEY_DRAWE;
+    }
+
+    public static void setkeyDRAWE(String keymap) {
+        KEY_DRAWE = keymap;
     }
 
     public static Boolean isCacheEnabled() {

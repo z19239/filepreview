@@ -135,6 +135,24 @@
       #{creatorId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{updaterId,jdbcType=INTEGER})
   </insert>
 
+  <!-- 批量导入-->
+  <insert id="insterBaseProcessDrawingsBatch" useGeneratedKeys="true"
+          keyProperty="id" parameterType="List">
+    INSERT INTO base_process_drawings(
+    cInvCCode, cInvCName, cInvCode, cIInvAddCode, cIInvName, cInvStd, drawing_no,
+    version_no, is_drawing, is_card, create_time, creator_id, update_time, updater_id
+    )
+    VALUES
+    <foreach collection="list" item="listInfo" separator=",">
+      (#{listInfo.cinvccode,jdbcType=VARCHAR}, #{listInfo.cinvcname,jdbcType=VARCHAR}, #{listInfo.cinvcode,jdbcType=VARCHAR},
+      #{listInfo.ciinvaddcode,jdbcType=VARCHAR}, #{listInfo.ciinvname,jdbcType=VARCHAR}, #{listInfo.cinvstd,jdbcType=VARCHAR},
+      #{listInfo.drawingNo,jdbcType=VARCHAR}, #{listInfo.versionNo,jdbcType=VARCHAR}, #{listInfo.isDrawing,jdbcType=INTEGER},
+      #{listInfo.isCard,jdbcType=INTEGER},  #{listInfo.createTime,jdbcType=TIMESTAMP},
+      #{listInfo.creatorId,jdbcType=INTEGER}, #{listInfo.updateTime,jdbcType=TIMESTAMP}, #{listInfo.updaterId,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+
   <!-- 调用视图查询exceld导入的数据是否有数据匹配 -->
   <select id="selectViewBydraweNo" parameterType="java.lang.String" resultType="cn.keking.model.PageData">
         select vd.Free1,vd.bcInvCode,vd.cInvAddCode,vd.cInvCode,vd.drawe_no from v_base_process_drawings vd

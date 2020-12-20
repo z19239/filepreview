@@ -47,6 +47,10 @@ mybatis:
 logging:
   level:
     cn.keking.mapper: debug
+    root: info  #日志级别 root表示所有包，也可以单独配置具体包 fatal error warn info debug trace off
+  file:
+    path: D:/log/mes.log #日志文件名称
+
 
 eureka:
   instance:
@@ -63,7 +67,7 @@ eureka:
   client:
     service-url:
       #euraka地址
-      defaultZone: http://10.0.10.24:8767/eureka/
+      defaultZone: http://122.51.146.12:8767/eureka/
       #defaultZone: http://192.168.31.49:8767/eureka/
 ---
 ##########################################################
@@ -110,6 +114,25 @@ spring:
     url: jdbc:mysql://10.0.10.22:3306/ljmes?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
     password: Ljmes@123
+##数据库连接设置（开发环境dev）
+##端口号设置，访问路径设置
+server:
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+
+---
+##########################################################
+###################  开发环境的虚拟机vm  ###################
+##########################################################
+##数据库连接设置（开发环境dev）
+spring:
+  profiles: vm
+  datasource:
+    url: jdbc:mysql://192.168.9.130:3306/ljmes?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password: 1001
 ##数据库连接设置（开发环境dev）
 ##端口号设置，访问路径设置
 server:

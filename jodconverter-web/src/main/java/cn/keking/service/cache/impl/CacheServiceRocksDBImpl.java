@@ -1,5 +1,6 @@
 package cn.keking.service.cache.impl;
 
+import cn.keking.model.ext.DraweNoDTO;
 import cn.keking.service.cache.CacheService;
 import org.artofsolving.jodconverter.office.OfficeUtils;
 import org.rocksdb.RocksDB;
@@ -88,6 +89,11 @@ public class CacheServiceRocksDBImpl implements CacheService {
     }
 
     @Override
+    public void putDRAWINGSCache(String key, List<DraweNoDTO> value) {
+
+    }
+
+    @Override
     public void putImgCache(String key, List<String> value) {
         try {
             Map<String, List<String>> imgCacheItem = getImgCache();
@@ -150,6 +156,16 @@ public class CacheServiceRocksDBImpl implements CacheService {
     }
 
     @Override
+    public List<DraweNoDTO> getDRAWINGSCache(String key) {
+        return null;
+    }
+
+    @Override
+    public Map<String, List<DraweNoDTO>> getDRAWINGSCache() {
+        return null;
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public Integer getPdfImageCache(String key) {
         Integer result = 0;
@@ -188,11 +204,6 @@ public class CacheServiceRocksDBImpl implements CacheService {
     @Override
     public void addQueueTask(String url) {
         blockingQueue.add(url);
-    }
-
-    @Override
-    public void addQueueTask() {
-
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class FileController {
 
     private final String fileDir = ConfigConstants.getFileDir();
 
-    private final String demoDir = "demo";
+    private final String demoDir = "temp";
 
     private final String demoPath = demoDir + File.separator;
 
@@ -90,7 +91,7 @@ public class FileController {
 
     public FileController(FilePreviewFactory filePreviewFactory,
                           FileUtils fileUtils,
-                          @Qualifier("cacheServiceJDKImpl") CacheService cacheService,
+                          CacheService cacheService,
                           DownloadUtils downloadUtils, PdfUtils pdfUtils) {
         this.previewFactory = filePreviewFactory;
         this.fileUtils = fileUtils;
@@ -154,9 +155,10 @@ public class FileController {
             fileName = fileName.substring(pos + 1);
         }
         // 判断是否存在同名文件
-        if (existsFile(fileName)) {
+        /*if (existsFile(fileName)) {
             return new ObjectMapper().writeValueAsString(new ReturnResponse<String>(1, "存在同名文件，请先删除原有文件再次上传", null));
-        }
+        }*/
+        existsFile(fileName);
         File outFile = new File(fileDir + demoPath);
         if (!outFile.exists()) {
             outFile.mkdirs();
@@ -210,16 +212,16 @@ public class FileController {
 
     private boolean existsFile(String fileName) {
         File file = new File(fileDir + demoPath + fileName);
+        if(file.exists())file.delete();
         return file.exists();
     }
 
     @RequestMapping(value = "getFilePath", method = RequestMethod.GET)
     @ResponseBody
-    public String getFilePath(@RequestParam("drawingNo") String drawingNo,HttpServletRequest request) throws JsonProcessingException, UnknownHostException {
-        BaseProcessDrawings baseProcessDrawings =baseProcessDrawingsService.selectByDrawingNo(drawingNo);
-        //String baseUrl =HttpURLConnectionUtil.backUrl(request);
+    public String getFilePath(@RequestParam("cInvCode") String cInvCode,@RequestParam("versionNo") String versionNo,HttpServletRequest request) throws JsonProcessingException, UnknownHostException {
+        //BaseProcessDrawings baseProcessDrawings =baseProcessDrawingsService.selectByDrawingNo(drawingNo);
+        BaseProcessDrawings baseProcessDrawings =baseProcessDrawingsService.selectBycInvCodeAndversionNo(cInvCode,versionNo);
         String baseUrl =ConfigRefreshComponent.HTTP;
-        //logger.info("请求地址url====>"+baseUrl);
         String imageUrl="";
         String pdfUrl="";
         Map<String,Object> map=new HashMap<>();
@@ -228,16 +230,14 @@ public class FileController {
             if(null !=baseProcessDrawingsDetails){
                 String path=baseProcessDrawingsDetails.getDrawingPath();
                 FileAttribute fileAttribute = fileUtils.getFileAttribute(path);
-                String suffix=fileAttribute.getSuffix();
                 String fileName=fileAttribute.getName().substring(fileAttribute.getName().lastIndexOf("\\")+1);;
                 String pdfName = fileName.substring(0, fileName.lastIndexOf(".") + 1) + "pdf";
                 SMBUtils.SmbGet(smbIp,smbUsername,smbPassword,path,pdfName,fileDir);
                 String outFilePath = fileDir + pdfName;
-                List<String> imageUrls = pdfUtils.pdf2jpg(outFilePath, pdfName, baseUrl+"/");
+                List<String> imageUrls = pdfUtils.pdf2jpg(outFilePath, pdfName, baseUrl+File.separator);
                 if(imageUrls.size()>0){
                     imageUrl =imageUrls.get(0);
                     pdfUrl=baseUrl+pdfName;
-                    //logger.info(pdfUrl);
                     map.put("imageUrl",imageUrl);
                     map.put("pdfUrl",pdfUrl);
                 }

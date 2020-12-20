@@ -18,7 +18,7 @@ public class EasyExcelReadUtil {
         try {
             easyRealInterface.setErrcla(cls);
 
-            excelReader = EasyExcel.read(fileName, cls, new EasyExcelLister(easyRealInterface,100)).build();
+            excelReader = EasyExcel.read(fileName, cls, new EasyExcelLister(easyRealInterface)).build();
 
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
 

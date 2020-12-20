@@ -26,4 +26,18 @@ public class BaseProcessDrawingsServiceimpl implements BaseProcessDrawingsServic
             return  null;
         }
     }
+
+    @Override
+    public BaseProcessDrawings selectBycInvCodeAndversionNo(String cInvCode, String versionNo) {
+        BaseProcessDrawingsExample baseProcessDrawingsExample=new BaseProcessDrawingsExample();
+        BaseProcessDrawingsExample.Criteria criteria = baseProcessDrawingsExample.createCriteria();
+        criteria.andCinvcodeEqualTo(cInvCode);
+        criteria.andVersionNoEqualTo(versionNo);
+        List<BaseProcessDrawings> baseProcessDrawings=baseProcessDrawingsMapper.selectByExample(baseProcessDrawingsExample);
+        if(baseProcessDrawings.size()>0){
+            return baseProcessDrawings.get(0);
+        }else{
+            return  null;
+        }
+    }
 }

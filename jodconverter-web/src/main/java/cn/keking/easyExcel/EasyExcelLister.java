@@ -19,7 +19,7 @@ public class EasyExcelLister<T> extends AnalysisEventListener<T> {
     /**
      * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
      */
-    private static  Integer  BATCH_COUNT = 3000;
+    private static  Integer  BATCH_COUNT = 100;
     List<T> list = new ArrayList<T>();
 
     EasyRealInterface easyRealInterface;

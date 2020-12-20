@@ -4,6 +4,7 @@ import cn.keking.model.PageData;
 import cn.keking.model.database.domain.BaseProcessDrawings;
 import cn.keking.model.database.domain.Inventory;
 import cn.keking.model.database.dto.BaseProcessDrawingsDTO;
+import cn.keking.model.database.dto.BaseProcessDrawingsExcelUploadDTO;
 import cn.keking.model.ext.DraweNoDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -21,6 +22,8 @@ public interface BaseProcessDrawingsExtMapper{
             "<foreach collection='list' item='c' separator=','>(#{c.chanIndex},#{c.cameraName})</foreach></script>")
     @Options(useGeneratedKeys = true, keyProperty = "cameraNo")*/
     void addDrawingsDetailsBatch(@Param("list") List<BaseProcessDrawingsDTO> baseProcessDrawingsDTOList);
+
+    void insterBaseProcessDrawingsBatch(@Param("list") List<BaseProcessDrawingsExcelUploadDTO> baseProcessDrawingsExcelUploadDTOList);
 
     int insterBaseProcessDrawings(BaseProcessDrawings baseProcessDrawings);
 
