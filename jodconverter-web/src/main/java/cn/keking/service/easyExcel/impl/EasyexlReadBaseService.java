@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public abstract class EasyexlReadBaseService implements EasyRealInterface {
 
@@ -39,7 +40,7 @@ public abstract class EasyexlReadBaseService implements EasyRealInterface {
     }
 
     //开始读表,这边如果表头正确才进行读取,
-    public void savelist(List list) throws InstantiationException, IllegalAccessException {
+    public void savelist(List list) throws InstantiationException, IllegalAccessException, ExecutionException, InterruptedException {
         if (issave) {
             int oldfailco = failco;
             save(list,errcla);
@@ -55,7 +56,7 @@ public abstract class EasyexlReadBaseService implements EasyRealInterface {
     }
 
     //执行存储的业务逻辑
-    public abstract void save(List list, Class errcla) throws IllegalAccessException, InstantiationException;
+    public abstract void save(List list, Class errcla) throws IllegalAccessException, InstantiationException, ExecutionException, InterruptedException;
 
     //读取结束的时候进行处理,如果有失败的,那么就导出到文件中
     public JsonMessage finish(String searcherrorpath) {

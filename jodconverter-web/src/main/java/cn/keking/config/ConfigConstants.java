@@ -33,7 +33,7 @@ public class ConfigConstants {
     public static  String SMB_PASSWORD;
     public static  String SMB_FILE_PATH;
     public static  String KEY_DRAWE;
-
+    public static  String C_KEY_DRAWE;
     public static final String DEFAULT_CACHE_ENABLED = "true";
     public static final String DEFAULT_TXT_TYPE = "txt,html,htm,asp,jsp,xml,json,properties,md,gitignore,log,java,py,c,cpp,sql,sh,bat,m,bas,prg,cmd";
     public static final String DEFAULT_MEDIA_TYPE = "mp3,wav,mp4,flv";
@@ -84,7 +84,13 @@ public class ConfigConstants {
     public static void setkeyDRAWE(String keymap) {
         KEY_DRAWE = keymap;
     }
+    public static String getcKeyDrawe() {
+        return C_KEY_DRAWE;
+    }
 
+    public static void setcKeyDrawe(String cKeyDrawe) {
+        C_KEY_DRAWE = cKeyDrawe;
+    }
     public static Boolean isCacheEnabled() {
         return CACHE_ENABLED;
     }

@@ -1,5 +1,6 @@
 package cn.keking.service.cache.impl;
 
+import cn.keking.model.database.domain.BaseChildDrawings;
 import cn.keking.model.database.dto.BaseProcessDrawingsDTO;
 import cn.keking.model.ext.DraweNoDTO;
 import cn.keking.service.cache.CacheService;
@@ -57,6 +58,12 @@ public class CacheServiceRedisImpl implements CacheService {
     }
 
     @Override
+    public void putCDRAWINGSCache(String key, List<BaseChildDrawings> value) {
+        RMapCache<String, List<BaseChildDrawings>> convertedList = redissonClient.getMapCache(DRAWINGS_TASK_QUEUE_C_KEY);
+        convertedList.fastPut(key, value);
+    }
+
+    @Override
     public void putImgCache(String key, List<String> value) {
         RMapCache<String, List<String>> convertedList = redissonClient.getMapCache(FILE_PREVIEW_IMGS_KEY);
         convertedList.fastPut(key, value);
@@ -91,8 +98,19 @@ public class CacheServiceRedisImpl implements CacheService {
     }
 
     @Override
+    public List<BaseChildDrawings> getCDRAWINGSCache(String key) {
+        RMapCache<String, List<BaseChildDrawings>> convertedList = redissonClient.getMapCache(DRAWINGS_TASK_QUEUE_C_KEY);
+        return convertedList.get(key);
+    }
+
+    @Override
     public Map<String, List<DraweNoDTO>> getDRAWINGSCache() {
         return redissonClient.getMapCache(DRAWINGS_TASK_QUEUE_KEY);
+    }
+
+    @Override
+    public Map<String, List<BaseChildDrawings>> getCDRAWINGSCache() {
+        return redissonClient.getMapCache(DRAWINGS_TASK_QUEUE_C_KEY);
     }
 
     @Override

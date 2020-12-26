@@ -22,7 +22,7 @@ public class SMBUtils {
 
     private static final String fileDir = ConfigConstants.getFileDir();
 
-    private static final String demoDir = "demo";
+    private static final String demoDir = "temp";
 
     private static final String demoPath = demoDir + File.separator;
 
@@ -192,7 +192,6 @@ public class SMBUtils {
                 remoteFileName = remoteFileName.substring(1, remoteFileName.length());
             }
             NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(ip, userId, userPwd);  //先登录验证
-            //String smbUrl = "smb://"+ip+"/"+sharePath+"/"+remoteFileName;
             String[] strArray=convertStrToArray(truncateHeadString(sharePath,2));
             String s="";
             for (String str:strArray) {
@@ -223,11 +222,11 @@ public class SMBUtils {
                     file.delete();
                 }
             }
-            File outFile = new File(fileDir + demoPath);
+            /*File outFile = new File(fileDir + demoPath);
             if (!outFile.exists()) {
                 outFile.mkdirs();
             }
-            logger.info("上传文件：{}", fileDir + demoPath + fileName);
+            logger.info("上传文件：{}", fileDir + demoPath + fileName);*/
             //创建文件
             /*bw=new BufferedWriter(new FileWriter(localDir + File.separator + fileName));
             bw.close();*/

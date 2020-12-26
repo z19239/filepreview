@@ -1,5 +1,6 @@
 package cn.keking.service.cache.impl;
 
+import cn.keking.model.database.domain.BaseChildDrawings;
 import cn.keking.model.ext.DraweNoDTO;
 import cn.keking.service.cache.CacheService;
 import org.artofsolving.jodconverter.office.OfficeUtils;
@@ -94,6 +95,11 @@ public class CacheServiceRocksDBImpl implements CacheService {
     }
 
     @Override
+    public void putCDRAWINGSCache(String key, List<BaseChildDrawings> value) {
+
+    }
+
+    @Override
     public void putImgCache(String key, List<String> value) {
         try {
             Map<String, List<String>> imgCacheItem = getImgCache();
@@ -161,7 +167,17 @@ public class CacheServiceRocksDBImpl implements CacheService {
     }
 
     @Override
+    public List<BaseChildDrawings> getCDRAWINGSCache(String key) {
+        return null;
+    }
+
+    @Override
     public Map<String, List<DraweNoDTO>> getDRAWINGSCache() {
+        return null;
+    }
+
+    @Override
+    public Map<String, List<BaseChildDrawings>> getCDRAWINGSCache() {
         return null;
     }
 

@@ -17,8 +17,8 @@ spring:
     minIdle: 1
     maxActive: 10
     maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 30000
+    timeBetweenEvictionRunsMillis: 300000
+    minEvictableIdleTimeMillis: 3600000
     validationQuery: select 1 from dual
     testWhileIdle: true
     testOnBorrow: false
@@ -44,12 +44,12 @@ mybatis:
   #configuration:
       #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #日志输出mybatis里面的sql
-logging:
-  level:
-    cn.keking.mapper: debug
-    root: info  #日志级别 root表示所有包，也可以单独配置具体包 fatal error warn info debug trace off
-  file:
-    path: D:/log/mes.log #日志文件名称
+    #logging:
+#level:
+  #cn.keking.mapper: debug
+    #root: info  #日志级别 root表示所有包，也可以单独配置具体包 fatal error warn info debug trace off
+  #file:
+  #path: D:/log/meslog #日志文件名称
 
 
 eureka:
@@ -67,8 +67,8 @@ eureka:
   client:
     service-url:
       #euraka地址
+      #defaultZone: http://10.0.10.32:8767/eureka/
       defaultZone: http://122.51.146.12:8767/eureka/
-      #defaultZone: http://192.168.31.49:8767/eureka/
 ---
 ##########################################################
 ###################  正式环境的profile  ###################

@@ -3,6 +3,7 @@ package cn.keking.web.controller;
 import cn.keking.config.ConfigConstants;
 import cn.keking.config.ConfigRefreshComponent;
 import cn.keking.model.*;
+import cn.keking.model.database.domain.BaseChildDrawings;
 import cn.keking.model.database.domain.BaseProcessDrawings;
 import cn.keking.model.database.domain.BaseProcessDrawingsDetails;
 import cn.keking.service.IFileService;
@@ -21,12 +22,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -177,6 +181,50 @@ public class FileController {
         }
     }
 
+    /**
+     * 组子件上传
+     * @param file
+     * @return
+     * @throws JsonProcessingException
+     */
+    @RequestMapping(value = "excelChilddrawingsFileUpload", method = RequestMethod.POST)
+    @ResponseBody
+    public String excelChilddrawingsFileUpload(@RequestParam("file") MultipartFile file) throws JsonProcessingException {
+        // 获取文件名
+        String fileName = file.getOriginalFilename();
+        //判断是否为IE浏览器的文件名，IE浏览器下文件名会带有盘符信息
+        // Check for Unix-style path
+        int unixSep = fileName.lastIndexOf('/');
+        // Check for Windows-style path
+        int winSep = fileName.lastIndexOf('\\');
+        // Cut off at latest possible point
+        int pos = (Math.max(winSep, unixSep));
+        if (pos != -1)  {
+            fileName = fileName.substring(pos + 1);
+        }
+        // 判断是否存在同名文件
+        /*if (existsFile(fileName)) {
+            return new ObjectMapper().writeValueAsString(new ReturnResponse<String>(1, "存在同名文件，请先删除原有文件再次上传", null));
+        }*/
+        existsFile(fileName);
+        File outFile = new File(fileDir + demoPath);
+        if (!outFile.exists()) {
+            outFile.mkdirs();
+        }
+        logger.info("上传文件：{}", fileDir + demoPath + fileName);
+        try(
+            InputStream in = file.getInputStream();
+            OutputStream out = new FileOutputStream(fileDir + demoPath + fileName)) {
+            StreamUtils.copy(in, out);
+            String filePath=fileDir + demoPath + fileName;
+            JsonMessage jsonMessage=easyExcelInterfaceService.saveChilddrawings(filePath,fileDir + demoPath );
+            return new ObjectMapper().writeValueAsString(jsonMessage);
+        } catch (IOException e) {
+            logger.error("文件上传失败", e);
+            return new ObjectMapper().writeValueAsString(new ReturnResponse<String>(1, "FAILURE", null));
+        }
+    }
+
     @RequestMapping(value = "deleteFile", method = RequestMethod.GET)
     public String deleteFile(String fileName) throws JsonProcessingException {
         if (fileName.contains("/")) {
@@ -211,7 +259,7 @@ public class FileController {
     }
 
     private boolean existsFile(String fileName) {
-        File file = new File(fileDir + demoPath + fileName);
+        File file = new File(fileDir + fileName);
         if(file.exists())file.delete();
         return file.exists();
     }
@@ -220,30 +268,153 @@ public class FileController {
     @ResponseBody
     public String getFilePath(@RequestParam("cInvCode") String cInvCode,@RequestParam("versionNo") String versionNo,HttpServletRequest request) throws JsonProcessingException, UnknownHostException {
         //BaseProcessDrawings baseProcessDrawings =baseProcessDrawingsService.selectByDrawingNo(drawingNo);
-        BaseProcessDrawings baseProcessDrawings =baseProcessDrawingsService.selectBycInvCodeAndversionNo(cInvCode,versionNo);
+        Map<String,Object> map=new HashMap<>();
         String baseUrl =ConfigRefreshComponent.HTTP;
+        BaseProcessDrawings baseProcessDrawings =baseProcessDrawingsService.selectBycInvCodeAndversionNo(cInvCode,versionNo);
+        //查询是否是组子件
         String imageUrl="";
         String pdfUrl="";
-        Map<String,Object> map=new HashMap<>();
         if(null!=baseProcessDrawings){
-            BaseProcessDrawingsDetails baseProcessDrawingsDetails= baseProcessDrawingsDetailsService.selectByPid(baseProcessDrawings.getId());
-            if(null !=baseProcessDrawingsDetails){
-                String path=baseProcessDrawingsDetails.getDrawingPath();
+            List<BaseChildDrawings> baseChildDrawingsList=baseProcessDrawingsService.selectBycInvCodeAndversionNoPid(cInvCode,versionNo);
+            if(null!=baseChildDrawingsList &&baseChildDrawingsList.size()>0){
+                //组件名称作为文件夹
+                BaseProcessDrawingsDetails baseDetails= baseProcessDrawingsDetailsService.selectByPid(baseProcessDrawings.getId());
+                String path=baseDetails.getDrawingPath();
                 FileAttribute fileAttribute = fileUtils.getFileAttribute(path);
-                String fileName=fileAttribute.getName().substring(fileAttribute.getName().lastIndexOf("\\")+1);;
+                String fileName=fileAttribute.getName().substring(fileAttribute.getName().lastIndexOf("\\")+1);
+                String folder=CommonalityUtil.clearSpecialCharacters(fileName.substring(0, fileName.lastIndexOf(".")) );
                 String pdfName = fileName.substring(0, fileName.lastIndexOf(".") + 1) + "pdf";
-                SMBUtils.SmbGet(smbIp,smbUsername,smbPassword,path,pdfName,fileDir);
-                String outFilePath = fileDir + pdfName;
-                List<String> imageUrls = pdfUtils.pdf2jpg(outFilePath, pdfName, baseUrl+File.separator);
+                String imgpdfName = fileName.substring(0, fileName.lastIndexOf(".") + 1) + "pdf";
+                SMBUtils.SmbGet(smbIp,smbUsername,smbPassword,path,pdfName,fileDir+folder);
+                pdfUrl=baseUrl+folder+"/"+folder +".zip";
+                List<BaseProcessDrawings> baseProcessDrawingsList=new ArrayList<>();
+                for (BaseChildDrawings bs:baseChildDrawingsList) {
+                    BaseProcessDrawings bases =baseProcessDrawingsService.selectBycInvCodeAndversionNo(bs.getCcinvcode(),bs.getCversionNo());
+                    baseProcessDrawingsList.add(bases);
+                }
+                //处理组子件不是直接返回
+                if(baseProcessDrawingsList.size()>0){
+                    for (BaseProcessDrawings baseProcess:baseProcessDrawingsList) {
+                        BaseProcessDrawingsDetails baseDrawingsDetails= baseProcessDrawingsDetailsService.selectByPid(baseProcess.getId());
+                        path=baseDrawingsDetails.getDrawingPath();
+                        fileAttribute = fileUtils.getFileAttribute(path);
+                        fileName=fileAttribute.getName().substring(fileAttribute.getName().lastIndexOf("\\")+1);;
+                        pdfName = fileName.substring(0, fileName.lastIndexOf(".") + 1) + "pdf";
+                        SMBUtils.SmbGet(smbIp,smbUsername,smbPassword,path,pdfName,fileDir+folder);
+                    }
+                }
+                //压缩文件成zip包
+                FileZip.fileToZip(fileDir+folder,fileDir+folder,folder);
+                map.put("pdfUrl",pdfUrl);
+                String outFilePath = fileDir+folder+File.separator+ imgpdfName;
+                List<String> imageUrls = pdfUtils.pdf2jpgLK(outFilePath, imgpdfName, baseUrl);
                 if(imageUrls.size()>0){
                     imageUrl =imageUrls.get(0);
-                    pdfUrl=baseUrl+pdfName;
                     map.put("imageUrl",imageUrl);
-                    map.put("pdfUrl",pdfUrl);
+                }
+            }else{
+                BaseProcessDrawingsDetails baseProcessDrawingsDetails= baseProcessDrawingsDetailsService.selectByPid(baseProcessDrawings.getId());
+                if(null !=baseProcessDrawingsDetails){
+                    String path=baseProcessDrawingsDetails.getDrawingPath();
+                    FileAttribute fileAttribute = fileUtils.getFileAttribute(path);
+                    String fileName=fileAttribute.getName().substring(fileAttribute.getName().lastIndexOf("\\")+1);;
+                    String pdfName = fileName.substring(0, fileName.lastIndexOf(".") + 1) + "pdf";
+                    SMBUtils.SmbGet(smbIp,smbUsername,smbPassword,path,pdfName,fileDir);
+                    String outFilePath = fileDir + pdfName;
+                    List<String> imageUrls = pdfUtils.pdf2jpg(outFilePath, pdfName, baseUrl);
+                    if(imageUrls.size()>0){
+                        imageUrl =imageUrls.get(0);
+                        pdfUrl=baseUrl+pdfName;
+                        map.put("imageUrl",imageUrl);
+                        map.put("pdfUrl",pdfUrl);
+                    }
                 }
             }
         }
         return new ObjectMapper().writeValueAsString(new ReturnResponse<Map<String, Object>>(200, "SUCCESS", map));
+    }
+
+
+    /**
+     * 模板下载
+     * @param
+     * @author kaima2
+     */
+    @ApiOperation(value = "文件下载")
+    @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
+    @ResponseBody
+    public void downloadfile(String fileName,HttpServletRequest request,HttpServletResponse response){
+        try{
+            /* 第一步:根据文件路径获取文件 */
+            System.out.println(fileDir+fileName);
+            File file = new File(fileDir+fileName);
+            if (file.exists()) { // 要通过file.exists()判断是否存在test命名的文件或者文件夹，如果返回true
+                /* 第二步：根据已存在的文件，创建文件输入流 */
+                InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+                /* 第三步：创建缓冲区，大小为流的最大字符数 */
+                byte[] fileData = input2byte(inputStream);
+                downloadFile(response, request, fileName, fileData);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * inputstream转Byte[]
+     * @param inStream
+     * @return
+     * @throws IOException
+     */
+    private  byte[] input2byte(InputStream inStream)throws IOException {
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        byte[] buff = new byte[100];
+        int rc = 0;
+        while ((rc = inStream.read(buff, 0, 100)) > 0) {
+            swapStream.write(buff, 0, rc);
+        }
+        byte[] in2b = swapStream.toByteArray();
+        return in2b;
+    }
+
+    /**
+     * 下载
+     * @param response
+     * @param request
+     * @param filename
+     * @param fileData
+     * @return
+     */
+    private boolean downloadFile(HttpServletResponse response,HttpServletRequest request, String filename, byte[] fileData) {
+        try {
+            OutputStream myout = null;
+            // 检查时候获取到数据
+            if (fileData == null) {
+                response.sendError(HttpStatus.NO_CONTENT.value());
+                return false;
+            }
+            try {
+                if(request.getHeader("User-Agent").toUpperCase().indexOf("MSIE") > 0) {
+                    filename = new String(filename.getBytes("GBK"),"iso-8859-1");
+                }else{
+                    filename = URLEncoder.encode(filename, "utf-8");
+                }
+                //response.setContentType("multipart/form-data");
+                response.setContentType("multipart/form-data;charset=utf-8");
+                response.setHeader("content-disposition","attachment;filename="+filename);
+                // 写明要下载的文件的大小
+                response.setContentLength(fileData.length);
+                // 从response对象中得到输出流,准备下载
+                myout = response.getOutputStream();
+                myout.write(fileData);
+                myout.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
 
@@ -978,14 +1149,8 @@ public class FileController {
         ResponseMsg responseMsg = new ResponseMsg();
         responseMsg.setSuccess(true);
         responseMsg.setMsg(JSONObject.toJSONString(spaceMap));
-
         String aString = "ddssddsd";
-
         int aaa = aString.lastIndexOf("d");
-
-
-
-
         return responseMsg;
     }
 

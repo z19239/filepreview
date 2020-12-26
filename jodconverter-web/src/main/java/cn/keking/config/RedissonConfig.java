@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ClassUtils;
 
 /**
- * Created by kl on 2017/09/26.
  * redisson 客户端配置
  */
 @ConditionalOnExpression("'${cache.type:default}'.equals('redis')")
@@ -49,26 +48,26 @@ public class RedissonConfig {
                 .setConnectionMinimumIdleSize(connectionMinimumIdleSize)
                 .setConnectionPoolSize(connectionPoolSize)
                 .setDatabase(database)
-                .setDnsMonitoring(dnsMonitoring)
+                //.setDnsMonitoring(dnsMonitoring)
                 .setDnsMonitoringInterval(dnsMonitoringInterval)
                 .setSubscriptionConnectionMinimumIdleSize(subscriptionConnectionMinimumIdleSize)
                 .setSubscriptionConnectionPoolSize(subscriptionConnectionPoolSize)
                 .setSubscriptionsPerConnection(subscriptionsPerConnection)
                 .setClientName(clientName)
-                .setFailedAttempts(failedAttempts)
+                //.setFailedAttempts(failedAttempts)
                 .setRetryAttempts(retryAttempts)
                 .setRetryInterval(retryInterval)
-                .setReconnectionTimeout(reconnectionTimeout)
+                //.setReconnectionTimeout(reconnectionTimeout)
                 .setTimeout(timeout)
                 .setConnectTimeout(connectTimeout)
-                .setIdleConnectionTimeout(idleConnectionTimeout)
-                .setPingTimeout(pingTimeout)
-                .setPassword(password);
+                .setIdleConnectionTimeout(idleConnectionTimeout);
+                //.setPingTimeout(pingTimeout)
+                //.setPassword(password);
         Codec codec=(Codec) ClassUtils.forName(getCodec(), ClassUtils.getDefaultClassLoader()).newInstance();
         config.setCodec(codec);
         config.setThreads(thread);
         config.setEventLoopGroup(new NioEventLoopGroup());
-        config.setUseLinuxNativeEpoll(false);
+        //config.setUseLinuxNativeEpoll(false);
         return config;
     }
 
